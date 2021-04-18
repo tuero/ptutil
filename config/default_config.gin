@@ -1,0 +1,15 @@
+# Global parameters
+experiment_name = "default"
+
+# Trainer parameters
+Trainer.num_epochs = 100
+Trainer.device = "cuda:0"
+Trainer.checkpoint_dir = "./checkpoints"
+
+# Callback parameters
+Logger.log_dir = "./logs"
+Logger.experiment = %experiment_name
+GradClipping.clip_value = 1.0
+TrackerTensorboard.tensorboard_dir = "./runs"
+TrackerTensorboard.experiment = %experiment_name
+EarlyStoppage.patience = 5
