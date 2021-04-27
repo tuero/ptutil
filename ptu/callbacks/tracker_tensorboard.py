@@ -54,11 +54,11 @@ class TrackerTensorboard(Callback):
         ]
 
     def flush_writers(self):
-        for _, writer in self.writers:
+        for writer in self.writers.values():
             writer.flush()
 
     def close_writers(self):
-        for _, writer in self.writers:
+        for writer in self.writers.values():
             writer.close()
 
     def begin_fit(self):
