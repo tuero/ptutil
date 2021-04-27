@@ -23,7 +23,7 @@ def create_network(config, in_channels, in_size):
     for layer_type, layer_attr in config:
         layer, curr_channels, size = _process_layer(layer_type, layer_attr, curr_channels, size)
         layers.append(layer)
-    return nn.Sequential(*layers)
+    return nn.Sequential(*layers), curr_channels, size
 
 
 # Create the network backwards in reference to the given config
@@ -41,7 +41,7 @@ def create_reverse_network(config, out_channels, out_size):
     for layer_type, layer_attr in config:
         layer, curr_channels, size = _process_layer_reversed(layer_type, layer_attr, curr_channels, size)
         layers.insert(0, layer)
-    return nn.Sequential(*layers)
+    return nn.Sequential(*layers), curr_channels, size
 
 
 def _process_layer(layer_type, layer_attr, in_channels, size):
@@ -108,7 +108,7 @@ def process_flat(layer_attr, curr_channels, curr_size):
 
 def process_flat_reversed(layer_attr, curr_channels, curr_size):
     size = int(np.sqrt(curr_size))
-    return nn.Unflatten(1, (curr_channels, size, size)), curr_channels, curr_size * size * size
+    return nn.Unflatten(1, (curr_channels, size, size)), curr_channels, curr_channels * size * size
 
 
 def process_linear(layer_attr, curr_channels, curr_size):

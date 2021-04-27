@@ -1,4 +1,3 @@
-from torch.nn.modules.conv import ConvTranspose2d
 from ptu.network_util import create_network, create_reverse_network
 from ptu.util.types import LayerType
 from torchinfo import summary
@@ -44,7 +43,9 @@ network_config_conv = [
 class ModelForward(nn.Module):
     def __init__(self):
         super().__init__()
-        self.net = create_network(network_config_conv, 3, 64)
+        self.net, curr_channels, size = create_network(network_config_conv, 3, 64)
+        print(curr_channels)
+        print(size)
 
     def forward(self, x):
         return self.net(x)
@@ -53,7 +54,9 @@ class ModelForward(nn.Module):
 class ModelReversed(nn.Module):
     def __init__(self):
         super().__init__()
-        self.net = create_reverse_network(network_config_conv, 3, 64)
+        self.net, curr_channels, size = create_reverse_network(network_config_conv, 3, 64)
+        print(curr_channels)
+        print(size)
 
     def forward(self, x):
         return self.net(x)
