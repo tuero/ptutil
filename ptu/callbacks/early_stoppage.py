@@ -1,9 +1,14 @@
+# File: early_stoppage.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Callback for saving checkpoints of the trainer/model
+
 import gin
 from ptu.callbacks.callback_base import Callback
 from ptu.util.types import LoggingItem
 
 
-# Callback for saving checkpoints of the trainer/model
 @gin.configurable
 class EarlyStoppage(Callback):
     def __init__(self, patience):

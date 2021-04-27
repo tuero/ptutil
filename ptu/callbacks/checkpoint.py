@@ -1,7 +1,12 @@
+# File: checkpoint.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Callback for saving checkpoints of the trainer/model
+
 from ptu.callbacks.callback_base import Callback
 
 
-# Callback for saving checkpoints of the trainer/model
 class Checkpoint(Callback):
     # Final checkpoint saved after training process is complete
     def after_fit(self):

@@ -1,3 +1,11 @@
+# File: trainer.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Trainer object which handles the main training logic,
+# along with validation/testing
+# Calls appropriate callbacks
+
 import os
 import sys
 import torch
@@ -7,9 +15,6 @@ import gin.torch
 from ptu.util.types import LoggingItem
 
 
-# Trainer object which handles the main training logic,
-# along with validation/testing
-# Calls appropriate callbacks
 @gin.configurable
 class Trainer:
     def __init__(self, num_epochs, device, checkpoint_dir, cbs=[]):

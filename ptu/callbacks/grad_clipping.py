@@ -1,9 +1,14 @@
+# File: grad_clipping.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Callback to clip the gradients
+
 import gin
 import torch.nn as nn
 from ptu.callbacks.callback_base import Callback
 
 
-# Callback to clip the gradients
 @gin.configurable
 class GradClipping(Callback):
     def __init__(self, clip_value=1.0):

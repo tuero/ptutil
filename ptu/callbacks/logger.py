@@ -1,3 +1,9 @@
+# File: logger.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Callback for logging to both console and file
+
 import sys
 import os
 import logging
@@ -5,7 +11,6 @@ import gin
 from ptu.callbacks.callback_base import Callback
 
 
-# Callback for logging to both console and file
 @gin.configurable
 class Logger(Callback):
     def __init__(self, log_dir=None, experiment="", log_console=True):

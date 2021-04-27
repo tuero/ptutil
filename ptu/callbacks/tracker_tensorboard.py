@@ -1,3 +1,9 @@
+# File: logger.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Callback for tracking metrics
+
 import os
 import gin
 from torch import functional
@@ -6,7 +12,6 @@ from ptu.callbacks.callback_base import Callback
 from ptu.util.types import MetricFramework, MetricType, Mode
 
 
-# Callback for tracking metrics
 @gin.configurable
 class TrackerTensorboard(Callback):
     def __init__(self, tensorboard_dir, experiment):
@@ -26,6 +31,7 @@ class TrackerTensorboard(Callback):
         # Mapping of tensorboard calls
         self.type_map = {
             MetricType.scalar: "add_scalar",
+            MetricType.scalars: "add_scalars",
             MetricType.image: "add_image",
             MetricType.images: "add_images",
         }
@@ -46,6 +52,14 @@ class TrackerTensorboard(Callback):
         self.trainer.metrics_buffer = [
             m for m in self.trainer.metrics_buffer if m.framework != MetricFramework.tensorboard
         ]
+
+    def flush_writers(self):
+        for _, writer in self.writers:
+            writer.flush()
+
+    def close_writers(self):
+        for _, writer in self.writers:
+            writer.close()
 
     def begin_fit(self):
         self.tensorboard_out()
@@ -77,6 +91,7 @@ class TrackerTensorboard(Callback):
 
     def after_epoch(self):
         self.tensorboard_out()
+        self.flush_writers()
         return True
 
     def begin_train_step(self):

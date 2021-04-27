@@ -8,6 +8,11 @@ __pycache__/
 # C extensions
 *.so
 
+# pip build
+build/
+*.egg-info/
+dist/
+
 # Internal created files
 checkpoints/
 logs/

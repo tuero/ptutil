@@ -1,5 +1,10 @@
+# File: callback_base.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
 # Base callback class
 # Methods called at respective times in trainer
+
 class Callback:
     def set_trainer(self, trainer):
         self.trainer = trainer

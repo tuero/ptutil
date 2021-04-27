@@ -1,3 +1,9 @@
+# File: types.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Various types used throughout this library
+
 from typing import Any
 from enum import Enum
 from dataclasses import dataclass
@@ -13,8 +19,9 @@ class MetricFramework(Enum):
 # Types of metrics which we can track
 class MetricType(Enum):
     scalar = 1
-    image = 2
-    images = 3
+    scalars = 2
+    image = 3
+    images = 4
 
 
 # Main modes the trainer can be in
@@ -22,6 +29,14 @@ class Mode(Enum):
     train = 1
     val = 2
     test = 3
+
+
+# Layers recognized by the network creator
+class LayerType(Enum):
+    linear = 1
+    conv2d = 2
+    convT2d = 3
+    flatten = 4
 
 
 # Data class for things which are logged

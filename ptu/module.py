@@ -1,9 +1,14 @@
+# File: module.py
+# Author: Jake Tuero (tuero@ualberta.ca)
+# Date: April 26, 2021
+#
+# Module object which contains the model,
+# interfaces with trainer and callbacks
+# @NOTE: init should initialize the optimizer_infos
+
 import torch.nn as nn
 
 
-# Module object which contains the model,
-# interfaces with trainer and callbacks
-# @note: Init should init internal models and optimizers
 class PTUtilModule(nn.Module):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
