@@ -234,8 +234,8 @@ class Trainer:
         self.model.to(self.device)
         self.model.set_trainer(self)
         self.do_val = val_dataloader is not None
-        self.size_train_data = len(train_dataloader)
-        self.size_val_data = len(val_dataloader)
+        self.num_batches_train = len(train_dataloader)
+        self.num_batches_val = len(val_dataloader)
 
         # Checkpoint not loaded, start from 0 and dump config params
         if not self.checkpoint_loaded:
