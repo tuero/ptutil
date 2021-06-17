@@ -36,6 +36,7 @@ class Trainer:
         self.in_val = False
         self.in_test = False
         self.checkpoint_loaded = False
+        self.scaler = torch.cuda.amp.GradScaler()
 
     # Calls appropriate callback
     def run_callbacks(self, callback_step):
@@ -166,7 +167,8 @@ class Trainer:
     def optimizer_step(self):
         # Update parameters with optimizers
         for optimizer_info in self.optimizer_infos:
-            optimizer_info.optimizer.step()
+            # optimizer_info.optimizer.step()
+            self.scaler.step(optimizer_info.optimizer)
         # Update any scheduler which has step interval
         for optimizer_info in self.optimizer_infos:
             if optimizer_info.interval == "step":
@@ -182,9 +184,11 @@ class Trainer:
         self.epoch_loss_train += self.loss.item()
         self.after_loss()
         # Backward pass and update
-        self.loss.backward()
+        # self.loss.backward()
+        self.scaler.scale(self.loss).backward()
         self.after_backward()
         self.optimizer_step()
+        self.scaler.update()
 
     # Single step specifically for validation
     def val_step(self, batch, batch_idx):
