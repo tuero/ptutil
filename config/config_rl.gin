@@ -1,10 +1,10 @@
 # Global parameters
-experiment_name = "default"
+experiment_name = "simple-rl"
 
 # Trainer parameters
-Trainer.num_epochs = 100
-Trainer.device = "cuda:0"
-Trainer.checkpoint_dir = "./checkpoints"
+AgentTrainer.num_episodes = 10000
+AgentTrainer.device = "cuda:0"
+AgentTrainer.checkpoint_dir = "./checkpoints"
 
 # Callback parameters
 Logger.log_dir = "./logs"

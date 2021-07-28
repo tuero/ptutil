@@ -1,82 +1,92 @@
-# File: callback_base.py
-# Author: Jake Tuero (tuero@ualberta.ca)
-# Date: April 26, 2021
-#
-# Base callback class
-# Methods called at respective times in trainer
+"""
+File: callback_base.py
+Author: Jake Tuero (tuero@ualberta.ca)
+Date: April 26, 2021
+
+Base callback class
+Methods called at respective times in trainer
+"""
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ptu.base_trainer import BaseTrainer
+
 
 class Callback:
-    def set_trainer(self, trainer):
+    """Base callback object.
+    Training objects will call callbacks at the respective time.
+    """
+
+    def set_trainer(self, trainer: BaseTrainer) -> None:
+        """Stores a reference to the external trainer in case we need access to any buffers.
+        """
         self.trainer = trainer
-    
-    # Before the fit process
-    def begin_fit(self):
+
+    def begin_fit(self) -> bool:
+        """Called before the fit process."""
         return True
 
-    # After model is trained
-    def after_fit(self):
+    def after_fit(self) -> bool:
+        """Called after the model is trained."""
         return True
 
-    # Before the validate process
-    def begin_validate(self):
+    def begin_test(self) -> bool:
+        """Called before the test process."""
         return True
 
-    # After the validate process
-    def after_validate(self):
+    def after_test(self) -> bool:
+        """Called after the test process."""
         return True
 
-    # Before the test process
-    def begin_test(self):
+    def begin_epoch(self) -> bool:
+        """Called before the epoch start in training, validation, and testing."""
         return True
 
-    # After the test process
-    def after_test(self):
+    def after_epoch(self) -> bool:
+        """Called after the epoch in training, validation, and testing."""
         return True
 
-    # Before epoch start in training, validation, and testing
-    def begin_epoch(self):
+    def begin_episode(self) -> bool:
+        """Called before the episode start in rl training, similar to begin_epoch."""
         return True
 
-    # After the epoch in training, validation, and testing
-    def after_epoch(self):
+    def after_episode(self) -> bool:
+        """Called after the episode start in rl training, similar to begin_epoch."""
         return True
 
-    # Before the epoch but only for train process
-    def begin_train_step(self):
+    def begin_train_step(self) -> bool:
+        """Called before the epoch but only for train process."""
         return True
 
-    # After the epoch but only for train process
-    def after_train_step(self):
+    def after_train_step(self) -> bool:
+        """Called after the epoch but only for train process."""
         return True
 
-    # Before the epoch but only for validation process
-    def begin_val_step(self):
+    def begin_val_step(self) -> bool:
+        """Called before the epoch but only for validation process."""
         return True
 
-    # After the epoch but only for validation process
-    def after_val_step(self):
+    def after_val_step(self) -> bool:
+        """Called after the epoch but only for validation process."""
         return True
 
-    # Before the epoch but only for test process
-    def begin_test_step(self):
+    def begin_test_step(self) -> bool:
+        """Called before the epoch but only for test process."""
         return True
 
-    # After the epoch but only for test process
-    def after_test_step(self):
+    def after_test_step(self) -> bool:
+        """Called after the epoch but only for test process."""
         return True
 
-    # Before every batch in training, validation, and testing
-    def begin_batch(self):
+    def begin_batch(self) -> bool:
+        """Called before every batch in training, validation, and testing."""
         return True
 
-    # After every batch in training, validation, and testing
-    def after_batch(self):
+    def after_batch(self) -> bool:
+        """Called after every batch in training, validation, and testing."""
         return True
 
-    # After the loss is calculated
-    def after_loss(self):
-        return True
-
-    # After the backward pass is done on the loss
-    def after_backward(self):
+    def after_backward(self) -> bool:
+        """Called after the backward pass is done on the loss."""
         return True

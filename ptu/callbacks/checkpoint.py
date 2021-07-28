@@ -1,19 +1,33 @@
-# File: checkpoint.py
-# Author: Jake Tuero (tuero@ualberta.ca)
-# Date: April 26, 2021
-#
-# Callback for saving checkpoints of the trainer/model
+"""
+File: checkpoint.py
+Author: Jake Tuero (tuero@ualberta.ca)
+Date: April 26, 2021
 
+Callback for saving checkpoints of the trainer/model
+"""
 from ptu.callbacks.callback_base import Callback
 
 
 class Checkpoint(Callback):
-    # Final checkpoint saved after training process is complete
-    def after_fit(self):
+    def __init__(self):
+        """Calls the trainer save_checkpoint method after each epoch/episode,
+        as well as once the training process is complete.
+        """
+        pass
+
+    def after_fit(self) -> bool:
+        """Final checkpoint saved after training process is complete"""
         self.trainer.save_checkpoint()
         return True
 
-    # Checkpoint saved after every epoch complete (training & validation)
-    def after_epoch(self):
+    def after_epoch(self) -> bool:
+        """Checkpoint saved after every epoch complete (training & validation)"""
         self.trainer.save_checkpoint()
+        return True
+
+    def after_episode(self) -> bool:
+        """Checkpoint saved after every episode completes"""
+        if self.trainer.save_checkpoint_flag:
+            self.trainer.save_checkpoint()
+            self.trainer.save_checkpoint_flag = False
         return True

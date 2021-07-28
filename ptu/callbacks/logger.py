@@ -1,8 +1,10 @@
-# File: logger.py
-# Author: Jake Tuero (tuero@ualberta.ca)
-# Date: April 26, 2021
-#
-# Callback for logging to both console and file
+"""
+File: logger.py
+Author: Jake Tuero (tuero@ualberta.ca)
+Date: April 26, 2021
+
+Callback for logging to both console and file
+"""
 
 import sys
 import os
@@ -13,7 +15,16 @@ from ptu.callbacks.callback_base import Callback
 
 @gin.configurable
 class Logger(Callback):
-    def __init__(self, log_dir=None, experiment="", log_console=True):
+    def __init__(self, log_dir: str = None, experiment: str = "", log_console: bool = True):
+        """Logs various messages to the console/log file.
+        To log a message, store a LoggingItem in the trainer.logging_buffer, and it will be pushed
+        at the next opportunity. See types.LoggingItem for details.
+
+        Args:
+            log_dir: The base directory to store the logging files (optional)
+            experiment: Experiment string name which will be used as a filename in log_dir (optional)
+            log_console: Flag to log to console (optional)
+        """
         assert log_dir is not None or log_console, "Logger must have at least one of console or file options."
 
         # Set which loggers are active
@@ -30,77 +41,74 @@ class Logger(Callback):
         # Init loggers
         logging.basicConfig(
             level=logging.INFO,
-            format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s] %(message)s",
+            format="%(asctime)s [%(levelname)-5.5s] %(message)s",
             handlers=log_handlers,
         )
 
-    # Logs from buffer are sent to which ever loggers active, and buffer cleared
-    # Called at every callback point
-    def log_out(self):
+    def log_out(self) -> None:
+        """Logs from buffer are sent to which ever loggers active, and buffer cleared.
+        Called at every callback point
+        """
         for item in self.trainer.logging_buffer:
             logging.log(getattr(logging, item.level), item.msg)
         self.trainer.logging_buffer.clear()
 
-    def begin_fit(self):
+    def begin_fit(self) -> bool:
         self.log_out()
         return True
 
-    def after_fit(self):
+    def after_fit(self) -> bool:
         self.log_out()
         return True
 
-    def begin_validate(self):
+    def begin_test(self) -> bool:
         self.log_out()
         return True
 
-    def after_validate(self):
+    def after_test(self) -> bool:
         self.log_out()
         return True
 
-    def begin_test(self):
+    def begin_epoch(self) -> bool:
         self.log_out()
         return True
 
-    def after_test(self):
+    def after_epoch(self) -> bool:
         self.log_out()
         return True
 
-    def begin_epoch(self):
+    def begin_episode(self) -> bool:
         self.log_out()
         return True
 
-    def after_epoch(self):
+    def after_episode(self) -> bool:
         self.log_out()
         return True
 
-    def begin_train_step(self):
+    def begin_train_step(self) -> bool:
         self.log_out()
         return True
 
-    def after_train_step(self):
+    def after_train_step(self) -> bool:
         self.log_out()
         return True
 
-    def begin_val_step(self):
+    def begin_val_step(self) -> bool:
         self.log_out()
         return True
 
-    def after_val_step(self):
+    def after_val_step(self) -> bool:
         self.log_out()
         return True
 
-    def begin_batch(self):
+    def begin_batch(self) -> bool:
         self.log_out()
         return True
 
-    def after_batch(self):
+    def after_batch(self) -> bool:
         self.log_out()
         return True
 
-    def after_loss(self):
-        self.log_out()
-        return True
-
-    def after_backward(self):
+    def after_backward(self) -> bool:
         self.log_out()
         return True
