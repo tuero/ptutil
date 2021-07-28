@@ -1,10 +1,10 @@
 from setuptools import find_packages
 from setuptools import setup
 
-_VERSION = '0.1.1'
+_VERSION = '1.0.0'
 
 setup(
-    name='pt-util',
+    name='ptutil',
     version=_VERSION,
     author='Jake Tuero',
     author_email='tuero@ualberta.ca',

@@ -1,8 +1,10 @@
-# File: logger.py
-# Author: Jake Tuero (tuero@ualberta.ca)
-# Date: April 26, 2021
-#
-# Callback for tracking metrics
+"""
+File: tracker_tensorboard.py
+Author: Jake Tuero (tuero@ualberta.ca)
+Date: April 26, 2021
+
+Callback for tensorboard metric logging
+"""
 
 import os
 import gin
@@ -14,7 +16,16 @@ from ptu.util.types import MetricFramework, MetricType, Mode
 
 @gin.configurable
 class TrackerTensorboard(Callback):
-    def __init__(self, tensorboard_dir, experiment):
+    def __init__(self, tensorboard_dir: str, experiment: str):
+        """Logs various metrics using the tensorboard API.
+        To log a metric, store a MetricsItem in the trainer.metrics_buffer, and it will be pushed
+        at the next opportunity. See types.MetricsItem for details.
+        The initializer arguments can be set through gin.
+
+        Args:
+            tensorboard_dir: The base directory to store tensorboard metrics, relative to the main script
+            experiment: Experiment string name which will be used as a subfolder in tensorboard_dir
+        """
         # Check if tensorboard log dir exists, create if not
         if not os.path.exists(tensorboard_dir):
             os.makedirs(tensorboard_dir)
@@ -36,9 +47,10 @@ class TrackerTensorboard(Callback):
             MetricType.images: "add_images",
         }
 
-    # Pulls metrics from buffer, and buffer cleared
-    # Called at every callback point
     def tensorboard_out(self):
+        """Pulls metrics from buffer, and buffer cleared.
+        Called at every callback point
+        """
         for metric_item in self.trainer.metrics_buffer:
             if metric_item.framework != MetricFramework.tensorboard:
                 continue
@@ -53,75 +65,72 @@ class TrackerTensorboard(Callback):
             m for m in self.trainer.metrics_buffer if m.framework != MetricFramework.tensorboard
         ]
 
-    def flush_writers(self):
+    def flush_writers(self) -> None:
         for writer in self.writers.values():
             writer.flush()
 
-    def close_writers(self):
+    def close_writers(self) -> None:
         for writer in self.writers.values():
             writer.close()
 
-    def begin_fit(self):
+    def begin_fit(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_fit(self):
+    def after_fit(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def begin_validate(self):
+    def begin_test(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_validate(self):
+    def after_test(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def begin_test(self):
+    def begin_epoch(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_test(self):
-        self.tensorboard_out()
-        return True
-
-    def begin_epoch(self):
-        self.tensorboard_out()
-        return True
-
-    def after_epoch(self):
+    def after_epoch(self) -> bool:
         self.tensorboard_out()
         self.flush_writers()
         return True
 
-    def begin_train_step(self):
+    def begin_episode(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_train_step(self):
+    def after_episode(self) -> bool:
+        self.tensorboard_out()
+        self.flush_writers()
+        return True
+
+    def begin_train_step(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def begin_val_step(self):
+    def after_train_step(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_val_step(self):
+    def begin_val_step(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def begin_batch(self):
+    def after_val_step(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_batch(self):
+    def begin_batch(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_loss(self):
+    def after_batch(self) -> bool:
         self.tensorboard_out()
         return True
 
-    def after_backward(self):
+    def after_backward(self) -> bool:
         self.tensorboard_out()
         return True
