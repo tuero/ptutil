@@ -10,6 +10,9 @@ cd ptutil
 pip install -e .
 ```
 
+## Examples
+See the included examples for details on how to use. 
+
 ## Features
 - Training, validation, and testing boiler plate code
 - Model code is placed into simple isolated methods

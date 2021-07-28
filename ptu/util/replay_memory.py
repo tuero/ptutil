@@ -118,7 +118,7 @@ class PrioritizedReplayMemory:
         """
         # Capacity and rolling handeled by the tree
         p = self._get_priority(error)
-        self.tree.add(p, self.TransitionSampleTyp(*args))
+        self.tree.add(p, self.TransitionSampleType(*args))
 
     def sample(self, batch_size: int) -> Tuple[NamedTuple, np.ndarray, np.ndarray]:
         """Returns a batched sample from the replay memory.
