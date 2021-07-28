@@ -14,6 +14,6 @@ setup(
         'torch>=1.3.0',
         'gin-config'
     ],
-    description='pt-util: A personal pytorch util library for training models',
-    url='https://github.com/tuero/pt-util'
+    description='ptutil: A personal pytorch util library for training models',
+    url='https://github.com/tuero/ptutil'
 )
