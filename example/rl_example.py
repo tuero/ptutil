@@ -178,7 +178,6 @@ class DQNAgent(PTUtilAgent):
 
     def loss_fnc(self, state_action_values, expected_state_action_values):
         return F.smooth_l1_loss(state_action_values, expected_state_action_values)
-        return torch.abs(state_action_values - expected_state_action_values.detach()).pow(2).mean()
 
     def optimize(self):
         batch = self.replay_memory.sample(self.batch_size)
