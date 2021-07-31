@@ -1,7 +1,11 @@
 # Pytorch Util
-This is a personal util library for PyTorch, to help facilitate training and testing boiler plate code.
-I do not guarantee that this is bug free, or follows every best practice. It is meant as a util library
-which I use for majority of my projects.
+This is a personal util library for PyTorch, to help facilitate training and testing boiler plate code,
+allowing for faster prototyping for my projects/thesis work.
+A lot of the inspiration is from libraries such as [PyTorch Lightning](https://www.pytorchlightning.ai/);
+however, I prefer to have more control over the feature set and how it interacts with non-API code.
+
+I do not guarantee that this is bug free, or follows every best practice. 
+It is meant as a util library which I use for majority of my projects.
 
 ## Install
 ```shell
@@ -11,7 +15,7 @@ pip install -e .
 ```
 
 ## Examples
-See the included examples for details on how to use. 
+See the included [examples](./example) for details on how to use. 
 
 ## Features
 - Training, validation, and testing boiler plate code
