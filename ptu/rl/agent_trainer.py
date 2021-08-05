@@ -61,14 +61,14 @@ class AgentTrainer(BaseTrainer):
         self.env = env
         self.step_episode = 0
 
-    def _begin_fit(self) -> None:
+    def _begin_fit(self, **kwargs) -> None:
         """Called before the fit process."""
         self.model.to(self.device)
         self.early_stoppage = False
         self.episode_loss = 0
         self.episode_reward = 0
         self.model.set_train()
-        self.model.begin_fit()
+        self.model.begin_fit(**kwargs)
         return self._run_callbacks("begin_fit")
 
     def _after_fit(self) -> None:
@@ -87,7 +87,7 @@ class AgentTrainer(BaseTrainer):
         self.model.begin_episode()
         return self._run_callbacks("begin_episode")
 
-    def _begin_test_episode(self) -> None:
+    def _begin_test_episode(self, **kwargs) -> None:
         """Called before the beginning of a episode during testing.
         Generally this is only called once.
         There may be special initialization needed for testing.
@@ -96,7 +96,7 @@ class AgentTrainer(BaseTrainer):
         self.episode_reward = 0.0
         self.model.set_eval()
         self.env.reset()
-        self.model.begin_test_episode()
+        self.model.begin_test_episode(**kwargs)
 
     def _after_episode(self) -> None:
         """Called after each episode during training.
@@ -134,7 +134,7 @@ class AgentTrainer(BaseTrainer):
     #      Trainer specific methods
     # -----------------------------------
 
-    def train_agent(self, agent: PTUtilAgent) -> None:
+    def train_agent(self, agent: PTUtilAgent, **kwargs) -> None:
         """Handles all the necessary subroutines for training a PTUtilAgent.
 
         Args:
@@ -153,7 +153,7 @@ class AgentTrainer(BaseTrainer):
             self.episode_rewards = []
         self.checkpoint_loaded = False
 
-        self._begin_fit()
+        self._begin_fit(**kwargs)
         for ep in range(self.episode_start, self.episode_end + 1):
             self.step_ep = ep
             self._begin_episode()
@@ -169,7 +169,7 @@ class AgentTrainer(BaseTrainer):
                 break
         self._after_fit()
 
-    def test_agent(self, agent: PTUtilAgent, render: bool = False) -> None:
+    def test_agent(self, agent: PTUtilAgent, render: bool = False, **kwargs) -> None:
         """Tests the trained agent, along with an option to render the environment
         to visualize the agent.
 
@@ -184,11 +184,11 @@ class AgentTrainer(BaseTrainer):
         def _draw():
             if render:
                 r.draw(self.env.state_to_image())
-                time.sleep(1)
+                time.sleep(0.5)
 
         if render:
             r = Render(600, 600)
-        self._begin_test_episode()
+        self._begin_test_episode(**kwargs)
         _draw()
         while not self.env.is_done():
             with torch.cuda.amp.autocast(self.use_amp):
@@ -236,5 +236,6 @@ class AgentTrainer(BaseTrainer):
             self.checkpoint_loaded = True
             self.logging_buffer.append(LoggingItem("INFO", "Loading from checkpoint."))
             del checkpoint
-        except:
+        except Exception as e:
+            print(str(e))
             sys.exit("Error: Unable to open config file {}".format(checkpoint_file))

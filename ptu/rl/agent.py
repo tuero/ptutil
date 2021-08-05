@@ -279,7 +279,7 @@ class PTUtilAgent(nn.Module):
         """
         raise NotImplementedError
 
-    def begin_fit(self) -> None:
+    def begin_fit(self, **kwargs) -> None:
         """Called before the fit process."""
         return
 
@@ -295,7 +295,7 @@ class PTUtilAgent(nn.Module):
         """Called at the beginning of each episode during training."""
         return
 
-    def begin_test_episode(self) -> None:
+    def begin_test_episode(self, **kwargs) -> None:
         """Called at the beginning of each episode during testing."""
         return
 
