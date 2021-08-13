@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-_VERSION = '1.0.0'
+_VERSION = '1.0.1'
 
 setup(
     name='ptutil',

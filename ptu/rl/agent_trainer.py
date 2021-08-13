@@ -197,7 +197,7 @@ class AgentTrainer(BaseTrainer):
             self.episode_reward += reward
         self._after_test_episode()
 
-    def save_checkpoint(self) -> None:
+    def save_checkpoint(self, str_model: str = None) -> None:
         """Saves the trainer state along with the current agent model.
         This is automatically called when using the checkpoint callback.
         """
@@ -211,7 +211,8 @@ class AgentTrainer(BaseTrainer):
         # check if directory exists, create if not
         if not os.path.exists(self.checkpoint_dir):
             os.makedirs(self.checkpoint_dir)
-        checkpoint_file = os.path.join(self.checkpoint_dir, str(self.model) + ".pt")
+        str_model = str_model if str_model is not None else str(self.model)
+        checkpoint_file = os.path.join(self.checkpoint_dir, str_model + ".pt")
         torch.save({**model_dict, **trainer_dict}, checkpoint_file)
 
     def load_from_checkpoint(self, agent: PTUtilAgent) -> None:

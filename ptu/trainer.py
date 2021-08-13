@@ -222,7 +222,7 @@ class Trainer(BaseTrainer):
         self.model.set_trainer(self)
         self.do_val = val_dataloader is not None
         self.num_batches_train = len(train_dataloader)
-        self.num_batches_val = len(val_dataloader)
+        self.num_batches_val = len(val_dataloader) if val_dataloader is not None else -1
 
         # Checkpoint not loaded, start from 0 and dump config params
         if not self.checkpoint_loaded:
