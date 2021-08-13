@@ -55,6 +55,10 @@ class Trainer(BaseTrainer):
         self.in_train = False
         self.in_val = False
         self.in_test = False
+        self.step_epoch = 0
+        self.step_global = 0
+        self.epoch_losses_train = []
+        self.epoch_losses_val = []
 
     def _begin_fit(self) -> None:
         """Called before the fit process"""
@@ -265,7 +269,7 @@ class Trainer(BaseTrainer):
         self._test_loop(test_dataloader)
         self._after_test()
 
-    def save_checkpoint(self) -> None:
+    def save_checkpoint(self, str_model: str = None) -> None:
         """Saves the trainer state along with the current model.
         This is automatically called when using the checkpoint callback.
         """
@@ -279,7 +283,8 @@ class Trainer(BaseTrainer):
         # check if directory exists, create if not
         if not os.path.exists(self.checkpoint_dir):
             os.makedirs(self.checkpoint_dir)
-        checkpoint_file = os.path.join(self.checkpoint_dir, str(self.model) + ".pt")
+        str_model = str_model if str_model is not None else str(self.model)
+        checkpoint_file = os.path.join(self.checkpoint_dir, str_model + ".pt")
         torch.save({**model_dict, **trainer_dict}, checkpoint_file)
 
     def load_from_checkpoint(self, model: PTUtilModule) -> None:
