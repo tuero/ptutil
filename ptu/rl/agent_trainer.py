@@ -214,6 +214,7 @@ class AgentTrainer(BaseTrainer):
         str_model = str_model if str_model is not None else str(self.model)
         checkpoint_file = os.path.join(self.checkpoint_dir, str_model + ".pt")
         torch.save({**model_dict, **trainer_dict}, checkpoint_file)
+        self.save_checkpoint_flag = False
 
     def load_from_checkpoint(self, agent: PTUtilAgent) -> None:
         """Loads the trainer and model from checkpoint.
