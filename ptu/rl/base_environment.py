@@ -77,13 +77,25 @@ class BaseEnvironment:
         raise NotImplementedError
 
     def state_to_image(self, state: Any = None) -> np.ndarray:
-        """Convert the current state to an image for drawing
+        """Convert the current state to an image used for neural network models
 
         Args:
             state: The state to process (optional). If not given, uses current state.
 
         Returns:
-            image representing current state
+            image representing current state (c, h, w)
+
+        """
+        raise NotImplementedError
+
+    def render(self, state: Any = None) -> np.ndarray:
+        """Convert the current state to an image for render drawing to screen
+
+        Args:
+            state: The state to process (optional). If not given, uses current state.
+
+        Returns:
+            image representing current state (h, w, c)
 
         """
         raise NotImplementedError
